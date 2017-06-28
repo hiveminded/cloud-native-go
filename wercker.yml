@@ -1,7 +1,7 @@
 dev:
   # The container definition we want to use for developing our app
   box: 
-    id: golang:1.8.1-alpine
+    id: golang:1.8.3-alpine
     cmd: /bin/sh
   steps:
     - internal/watch:
@@ -13,7 +13,7 @@ dev:
 build:
   # The container definition we want to use for building our app
   box: 
-    id: golang:1.8.1-alpine
+    id: golang:1.8.3-alpine
     cmd: /bin/sh
   steps:
     - wercker/golint
@@ -23,7 +23,7 @@ build:
     - script:
         name: go build
         code: |
-          go get github.com/lreimer/cloud-native-go
+          go get github.com/hiveminded/cloud-native-go
           CGO_ENABLED=0 go build -o cloud-native-go
     - script:
         name: copy binary
@@ -39,10 +39,10 @@ deploy:
     cmd: /bin/sh
   steps:
     - internal/docker-push:
-        author: "M.-Leander Reimer <mario-leander.reimer@qaware.de>"
+        author: "Bill Q. <hiveminded@tutanota.com>"
         username: $USERNAME
         password: $PASSWORD
-        repository: lreimer/cloud-native-go
+        repository: hiveminded/cloud-native-go
         tag: 1.1.0 $WERCKER_GIT_COMMIT latest 
         registry: https://registry.hub.docker.com
         entrypoint: /pipeline/source/cloud-native-go

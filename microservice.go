@@ -1,22 +1,32 @@
 package main
 
 import (
-	"fmt"
-	"net/http"
 	"os"
 
-	"github.com/lreimer/cloud-native-go/api"
+	"github.com/get-ion/ion"
+	"github.com/get-ion/ion/context"
+
+	"github.com/hiveminded/cloud-native-go/api"
 )
 
 func main() {
-	http.HandleFunc("/", index)
-	http.HandleFunc("/api/echo", api.EchoHandleFunc)
-	http.HandleFunc("/api/hello", api.HelloHandleFunc)
+	app := ion.New()
 
-	http.HandleFunc("/api/books", api.BooksHandleFunc)
-	http.HandleFunc("/api/books/", api.BookHandleFunc)
+	app.Get("/", index)
 
-	http.ListenAndServe(port(), nil)
+	apiGroup := app.Party("/api")
+	{
+		apiGroup.Get("/echo", api.EchoHandler)
+		apiGroup.Get("/hello", api.HelloHandler)
+		apiGroup.Get("/books", api.AllBooksHandler)
+		apiGroup.Get("/books/{isbn:string}", api.GetBookHandler)
+		apiGroup.Post("/books", api.CreateBookHandler)
+		apiGroup.Put("/books/{isbn:string}", api.UpdateBookHandler)
+		apiGroup.Delete("/books/{isbn:string}", api.DeleteBookHandler)
+
+	}
+
+	app.Run(ion.Addr(":" + port()))
 }
 
 func port() string {
@@ -27,7 +37,6 @@ func port() string {
 	return ":" + port
 }
 
-func index(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Welcome to Cloud Native Go.")
+func index(ctx context.Context) {
+	ctx.Writef("Welcome to Cloud Native")
 }

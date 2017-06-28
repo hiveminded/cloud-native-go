@@ -1,23 +1,14 @@
-image:https://app.wercker.com/status/d328097234e34e6b8b7ee19eb8e963a5/s/master["Wercker Status", link="https://app.wercker.com/project/byKey/d328097234e34e6b8b7ee19eb8e963a5"]
-image:https://img.shields.io/badge/license-MIT%20License-blue.svg["MIT License", link=https://github.com/lreimer/cloud-native-javaee/blob/master/LICENSE"]
-
-= Cloud Native Go Showcase
-
-This is actually my first time I wrote something using the Go language.
-So I tried writing a small microservice with a super simple hello API. 
-The next iteration will use the Go Kit or Go Micro for more sophisticated 
-integration features. 
-
-== Prerequisites
+## Prerequisites
 
 In order to build and run this showcase you need to have a couple of things installed:
 
 * The Go SDK (using Brew)
+* The Ion Web Framework
 * The Docker Toolbox or native Docker, whatever you prefer
 * The Make tool (optional)
 * The Wercker CLI (optional)
 
-== Building the showcase
+## Building the showcase
 
 In case you have make installed you can simply issue the following command to build and
 install the application:
@@ -40,19 +31,19 @@ want to run the Wercker build pipeline use the following command:
 $ wercker build 
 ```
 
-== Running the showcase
+## Running the showcase
 
 You have two options. Either build and run the showcase locally, or build and run the Docker image.
 
 ```shell
 $ make docker
-$ docker run --name cloud-native-go -it -p 18080:8080 cloud-native-go:1.1.0
+$ docker run --name cloud-native-go -it -p 18080:8080 cloud-native-go:1.0.0
 ```
 
 Now open a browser or use somethin like `curl` or `HTTPie` and issue a GET request on the
 URL http://192.168.99.100:18080/api/hello
 
-== Deploying to Kubernetes
+##Deploying to Kubernetes
 
 We will be using Minikube to run a small Kubernetes cluster locally. Make sure you have build
 the Docker image locally.
@@ -68,17 +59,15 @@ $ kubectl get services
 If you want to access the Go microservice you need to use the node port displayed by the last
 command, e.g. `http GET 192.168.99.100:32278/api/hello`
 
-== References
+## References
 
+* https://github.com/get-ion/ion[Go web framework]
 * https://gokit.io[Go Kit: A toolkit for microservices]
 * https://github.com/micro/go-micro[Go microservice framework]
 * http://www.wercker.com/cli/install/osx[Install the Wercker CLI]
-* https://www.packtpub.com/application-development/getting-started-cloud-native-go[Packt Video Course]
 
-== Maintainer
+## License
 
-M.-Leander Reimer (@lreimer)
+This software is provided under the MIT open source license.
 
-== License
-
-This software is provided under the MIT open source license, read the `LICENSE` file for details.
+This is a ported version of M.-Leander Reimer (@lreimer), read [LICENSE file](https://github.com/lreimer/cloud-native-go/blob/master/LICENSE) for details. 

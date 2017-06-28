@@ -1,10 +1,12 @@
-FROM golang:1.7.3-alpine
+FROM golang:1.8.3-alpine
 
-ENV SOURCES /go/src/github.com/lreimer/cloud-native-go/
+RUN apk update && apk upgrade && apk add --no-cache bash git
+RUN go get github.com/hiveminded/cloud-native-go
 
-COPY . ${SOURCES}
+ENV SOURCES /go/src/github.com/github.com/hiveminded/cloud-native-go
+# COPY . ${SOURCES}
 
-RUN cd ${SOURCES} && CGO_ENABLED=0 go install -a
+RUN cd ${SOURCES} $$ CGO_ENABLED=0 go build
 
 ENTRYPOINT cloud-native-go
 EXPOSE 8080

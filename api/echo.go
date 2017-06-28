@@ -1,14 +1,11 @@
 package api
 
 import (
-	"fmt"
-	"net/http"
+	"github.com/get-ion/ion/context"
 )
 
-// EchoHandleFunc to be used as http.HandleFunc for ECHO API
-func EchoHandleFunc(w http.ResponseWriter, r *http.Request) {
-	message := r.URL.Query()["message"][0]
-
-	w.Header().Add("Content-Type", "text/plain")
-	fmt.Fprintf(w, message)
+// EchoHandler to be used as Handler for ECHO API
+func EchoHandler(ctx context.Context) {
+	message := ctx.URLParam("message")
+	ctx.Text(message)
 }
